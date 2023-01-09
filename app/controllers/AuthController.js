@@ -41,20 +41,28 @@ exports.register = [
           errors.array()
         );
       } else {
-        if (req.body.password == req.body.confirm_password) {
-          await bcrypt.hash(req.body.password, 12).then((hashedPassword) => {
-            req.body.hashedPassword = hashedPassword;
-          });
-          const user = await models.User.create(req.body);
-
-          return apiResponse.successResponseWithData(
-            res,
-            'Registration Success.',
-            user
-          );
-        } else {
-          return apiResponse.ErrorResponse(res, 'Passwords do not match');
-        }
+        await bcrypt.hash(req.body.password, 12).then((hashedPassword) => {
+          req.body.hashedPassword = hashedPassword;
+        });
+        const user = await models.users.create(req.body);
+        let userData = {
+          id: user.id,
+          email: user.email,
+          role_id: user.role_id,
+        };
+        //Prepare JWT token for authentication
+        const jwtPayload = userData;
+        const jwtData = {
+          expiresIn: process.env.JWT_TIMEOUT_DURATION,
+        };
+        const secret = process.env.JWT_SECRET;
+        //Generated JWT token with Payload and secret.
+        userData.token = jwt.sign(jwtPayload, secret, jwtData);
+        return apiResponse.successResponseWithData(
+          res,
+          'Login Success.',
+          userData
+        );
       }
     } catch (error) {
       //throw error in json response with status 500.
@@ -94,50 +102,53 @@ exports.login = [
           errors.array()
         );
       } else {
-        models.User.findOne({
-          attributes: ['first_name', 'last_name', 'email', 'hashedPassword'],
-          where: {
-            email: req.body.email,
-          },
-        }).then((user) => {
-          if (user) {
-            bcrypt
-              .compare(req.body.password, user.hashedPassword)
-              .then((doMatch) => {
-                if (doMatch) {
-                  let userData = {
-                    id: user.id,
-                    first_name: user.first_name,
-                    last_name: user.last_name,
-                    email: user.email,
-                  };
-                  //Prepare JWT token for authentication
-                  const jwtPayload = userData;
-                  const jwtData = {
-                    expiresIn: process.env.JWT_TIMEOUT_DURATION,
-                  };
-                  const secret = process.env.JWT_SECRET;
-                  //Generated JWT token with Payload and secret.
-                  userData.token = jwt.sign(jwtPayload, secret, jwtData);
-                  return apiResponse.successResponseWithData(
-                    res,
-                    'Login Success.',
-                    userData
-                  );
-                } else {
-                  return apiResponse.ErrorResponse(
-                    res,
-                    'Email and password do not match'
-                  );
-                }
-              });
-          } else {
-            return apiResponse.ErrorResponse(
-              res,
-              'Email and password do not match'
-            );
-          }
-        });
+        models.users
+          .findOne({
+            attributes: ['first_name', 'last_name', 'email', 'hashedPassword'],
+            where: {
+              email: req.body.email,
+            },
+          })
+          .then((user) => {
+            if (user) {
+              bcrypt
+                .compare(req.body.password, user.hashedPassword)
+                .then((doMatch) => {
+                  if (doMatch) {
+                    let userData = {
+                      id: user.id,
+                      first_name: user.first_name,
+                      last_name: user.last_name,
+                      email: user.email,
+                      role_id: user.role_id,
+                    };
+                    //Prepare JWT token for authentication
+                    const jwtPayload = userData;
+                    const jwtData = {
+                      expiresIn: process.env.JWT_TIMEOUT_DURATION,
+                    };
+                    const secret = process.env.JWT_SECRET;
+                    //Generated JWT token with Payload and secret.
+                    userData.token = jwt.sign(jwtPayload, secret, jwtData);
+                    return apiResponse.successResponseWithData(
+                      res,
+                      'Login Success.',
+                      userData
+                    );
+                  } else {
+                    return apiResponse.ErrorResponse(
+                      res,
+                      'Email and password do not match'
+                    );
+                  }
+                });
+            } else {
+              return apiResponse.ErrorResponse(
+                res,
+                'Email and password do not match'
+              );
+            }
+          });
       }
     } catch (error) {
       return apiResponse.ErrorResponse(res, error.message);
