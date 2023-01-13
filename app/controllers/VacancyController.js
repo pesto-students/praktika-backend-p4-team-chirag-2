@@ -2,8 +2,6 @@ const apiResponse = require('../../helpers/apiResponse');
 const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const vacancy = require('../models/vacancy');
-const vacancy = require('../models/vacancy');
-const vacancy = require('../models/vacancy');
 
 exports.get = [
   async (req, res) => {

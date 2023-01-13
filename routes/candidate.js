@@ -31,24 +31,4 @@ router.post('/api/candidate/create', CandidateController.create);
  */
 router.put('/api/candidate/update', CandidateController.update);
 
-/**
- * @openpi
- * /api/candidate/joblist
- * get:
- *  tags:
- *      -Candidate Job Offers:
- *      summary: Candidate Job Offers List api
- */
-router.get('/api/candidate/joblist', CandidateController.joblist);
-
-/**
- * @openpi
- * /api/candidate/acceptinvite
- * put:
- *  tags:
- *      -Candidate:
- *      summary: accept job invite api for candidate pofile
- */
-router.put('/api/candidate/acceptinvite', CandidateController.acceptinvite);
-
 module.exports = router;

@@ -75,12 +75,16 @@ exports.create = [
               crunchBase: req.body.crunchBase,
             });
 
-            res.json({ company });
+            return apiResponse.successResponseWithData(
+              res,
+              'Profile created Successfully.',
+              company
+            );
           } catch (error) {
-            res.status(400).json({ error: error.message });
+            return apiResponse.ErrorResponse(res, error.message);
           }
         } catch (error) {
-          res.status(400).json({ error: error.message });
+          return apiResponse.ErrorResponse(res, error.message);
         }
       }
     });
@@ -140,7 +144,7 @@ exports.update = [
               });
               res.json({ company });
             } catch (error) {
-              res.status(400).json({ error: error.message });
+              return apiResponse.ErrorResponse(res, error.message);
             }
           }
         } catch (error) {
