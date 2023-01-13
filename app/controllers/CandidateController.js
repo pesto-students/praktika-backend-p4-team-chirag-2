@@ -66,11 +66,13 @@ exports.create = [
               errors.array()
             );
           } else {
-            const user = models.PersonalInformation.create(req.body);
+            const personal_information = models.personal_information.create(
+              req.body
+            );
             return apiResponse.successResponseWithData(
               res,
               'Registration Success.',
-              user
+              personal_information
             );
           }
         } catch (error) {
@@ -103,6 +105,7 @@ exports.update = [
   check('current_country_id').isInt(),
   check('current_city_id').isInt(),
   check('current_state_id').isInt(),
+  check('work_experience').isArray(),
   check('current_zip_code').isLength({ min: 3 }),
   check('permanent_address_line_1').isLength({ min: 3 }),
   check('permanent_address_line_2').isLength({ min: 3 }),
@@ -134,12 +137,48 @@ exports.update = [
               errors.array()
             );
           } else {
-            req.body.userId = decoded['id'];
-            const user = models.PersonalInformation.create(req.body);
+            req.body.userId = decoded.id;
+            const personalInformation = models.personal_information.findByPk(
+              req.params.id
+            );
+            if (!personalInformation) {
+              return res
+                .status(404)
+                .json({ error: 'Personal Information not found' });
+            }
+            // Update the personal information
+            models.personal_information.update({
+              first_name: req.body.first_name,
+              last_name: req.body.last_name,
+              job_category_id: req.body.job_category_id,
+              total_expeiance: req.body.total_expeiance,
+              currancy_id: req.body.currancy_id,
+              current_ctc: req.body.current_ctc,
+              expected_ctc: req.body.expected_ctc,
+              resume_url: req.body.resume_url,
+              video_url: req.body.video_url,
+              website_link: req.body.website_link,
+              linked_link: req.body.linked_link,
+              github_link: req.body.github_link,
+              facebook_link: req.body.facebook_link,
+              twitter_link: req.body.twitter_link,
+              current_address_line_1: req.body.current_address_line_1,
+              current_address_line_2: req.body.current_address_line_2,
+              current_country_id: req.body.current_country_id,
+              current_city_id: req.body.current_city_id,
+              current_state_id: req.body.current_state_id,
+              current_zip_code: req.body.current_zip_code,
+              permanent_address_line_1: req.body.permanent_address_line_1,
+              permanent_address_line_2: req.body.permanent_address_line_2,
+              permanent_country_id: req.body.permanent_country_id,
+              permanent_city_id: req.body.permanent_city_id,
+              permanent_state_id: req.body.permanent_state_id,
+              permanent_zip_code: req.body.permanent_zip_code,
+            });
             return apiResponse.successResponseWithData(
               res,
-              'Registration Success.',
-              user
+              'Personal Information Updated.',
+              personal_information
             );
           }
         } catch (error) {
@@ -166,11 +205,12 @@ exports.get = [
           .send({ auth: false, message: 'Failed to authenticate token.' });
       } else {
         userId = decoded['id'];
-        PersonalInformation.findOne({
-          where: {
-            user_id: userId,
-          },
-        })
+        personal_information
+          .findOne({
+            where: {
+              user_id: userId,
+            },
+          })
           .then((personalInformation) => {
             res.json(personalInformation);
           })

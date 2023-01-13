@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const AuthController = require('../app/controllers/recrutirerController');
+const recrutirerController = require('../app/controllers/recrutirerController');
+const vacancyController = require('../app/controllers/vacancyController');
+const dashboardController = require('../app/controllers/DashboardController');
 
 /**
  * @openpi
@@ -10,7 +12,20 @@ const AuthController = require('../app/controllers/recrutirerController');
  *      -recrutirer:
  *      summary: get api for recrutirer pofile
  */
-router.post('/api/recrutirer/dashboard', recrutirerController.get);
+router.post(
+  '/api/recrutirer/dashboard',
+  recrutirerController.dashboardController
+);
+
+/**
+ * @openpi
+ * /api/recrutirer/get
+ * post:
+ *  tags:
+ *      -recrutirer:
+ *      summary: Create vacancy api for the recrutirer profie
+ */
+router.get('/api/recrutirer', recrutirerController.get);
 
 /**
  * @openpi
@@ -20,7 +35,7 @@ router.post('/api/recrutirer/dashboard', recrutirerController.get);
  *      -recrutirer:
  *      summary: Create vacancy api for the recrutirer profie
  */
-router.post('/api/recrutirer/vacancy/create', recrutirerController.create);
+router.post('/api/recrutirer', recrutirerController.create);
 /**
  * @openpi
  * /api/recrutirer/update
@@ -29,28 +44,48 @@ router.post('/api/recrutirer/vacancy/create', recrutirerController.create);
  *      -recrutirer:
  *      summary: Update api for recrutirer pofile
  */
-router.post('/api/recrutirer/vacancy/update', recrutirerController.update);
+router.put('/api/recrutirer', recrutirerController.update);
 
 /**
  * @openpi
- * /api/recrutirer/joblist
+ * /api/vacancy
+ * get:
+ *  tags:
+ *      -vacancy:
+ *      summary: get vacancys api
+ */
+router.get('/api/vacancy', vacancyController.get);
+
+/**
+ * @openpi
+ * /api/vacancy
  * post:
+ *  tags:
+ *      -vacancy:
+ *      summary: Create vacancy api
+ */
+router.post('/api/vacancy', vacancyController.create);
+/**
+ * @openpi
+ * /api/vacancy
+ * put:
+ *  tags:
+ *      -vacancy:
+ *      summary: Update api for vacancy
+ */
+router.put('/api/vacancy', vacancyController.update);
+
+/**
+ * @openpi
+ * /api/vacancy
+ * delete:
  *  tags:
  *      -recrutirer:
  *      summary: delete api for recrutirer pofile
  */
-router.get('/api/recrutirer/vacancy/delete', recrutirerController.delete);
+router.delete('/api/vacancy/delete', vacancyController.delete);
 
 /**
- * @openpi
- * /api/recrutirer/acceptinvite
- * post:
- *  tags:
- *      -recrutirer:
- *      summary: Update api for recrutirer pofile
- */
-router.get('/api/recrutirer/joblist', recrutirerController.getjoblist);
-
 /**
  * @openpi
  * /api/recrutirer/getcandidates
@@ -66,13 +101,13 @@ router.post(
 
 /**
  * @openpi
- * /api/recrutirer/getcandidates
+ * /api/recrutirer/candidate/sendrequest
  * post:
  *  tags:
  *      -recrutirer candidate sent request:
  *      summary: sent request to candidate regarding job vacancy
  */
-router.get(
+router.put(
   '/api/recrutirer/candidate/sendrequest',
   recrutirerController.sentcandidateinvite
 );
