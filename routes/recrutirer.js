@@ -8,7 +8,7 @@ const recrutirerController = require('../app/controllers/recruiterController');
  * post:
  *  tags:
  *      -recrutirer:
- *      summary: Create vacancy api for the recrutirer profie
+ *      summary: Create api for the recrutirer profie
  */
 router.get('/api/recrutirer', recrutirerController.get);
 
@@ -18,7 +18,7 @@ router.get('/api/recrutirer', recrutirerController.get);
  * post:
  *  tags:
  *      -recrutirer:
- *      summary: Create vacancy api for the recrutirer profie
+ *      summary: Create api for the recrutirer profie
  */
 router.post('/api/recrutirer', recrutirerController.create);
 /**
