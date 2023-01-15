@@ -6,33 +6,40 @@ const vacancy = require('../models/vacancy');
 exports.get = [
   async (req, res) => {
     // Verify the JWT token in the request header
-    const token = req.header('x-access-token');
-    if (!token) {
-      return res.status(401).json({ error: 'No token provided' });
-    }
-
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const user_id = decoded.user_id;
-      // Find all vacancies of the specific company
-      let vacancies = await Vacancy.findAll({
-        where: { company_id: company_id },
-      });
-      // Filter the result based on jobCategory and jobType
-      if (req.query.jobCategory) {
-        vacancies = vacancies.filter(
-          (vacancy) => vacancy.jobCategory === req.query.jobCategory
-        );
+    const token = req.headers['x-access-token'];
+    console.log(token);
+    if (!token)
+      return res
+        .status(401)
+        .send({ auth: false, message: 'No token provided.' });
+    await jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        return res
+          .status(500)
+          .send({ auth: false, message: 'Failed to authenticate token.' });
+      } else {
+        try {
+          // Find all vacancies of the specific company
+          let vacancies = vacancy.findAll({
+            where: { company_id: company_id },
+          });
+          // Filter the result based on jobCategory and jobType
+          if (req.query.jobCategory) {
+            vacancies = vacancies.filter(
+              (vacancy) => vacancy.jobCategory === req.query.jobCategory
+            );
+          }
+          if (req.query.jobType) {
+            vacancies = vacancies.filter(
+              (vacancy) => vacancy.jobType === req.query.jobType
+            );
+          }
+          res.json({ vacancies });
+        } catch (error) {
+          res.status(401).json({ error: 'Invalid token' });
+        }
       }
-      if (req.query.jobType) {
-        vacancies = vacancies.filter(
-          (vacancy) => vacancy.jobType === req.query.jobType
-        );
-      }
-      res.json({ vacancies });
-    } catch (error) {
-      res.status(401).json({ error: 'Invalid token' });
-    }
+    });
   },
 ];
 
@@ -79,7 +86,7 @@ exports.create = [
       return res
         .status(401)
         .send({ auth: false, message: 'No token provided.' });
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    await jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err)
         return res
           .status(500)
@@ -164,7 +171,7 @@ exports.update = [
       return res
         .status(401)
         .send({ auth: false, message: 'No token provided.' });
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    await jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err)
         return res
           .status(500)
@@ -216,7 +223,7 @@ exports.delete = [
       return res
         .status(401)
         .send({ auth: false, message: 'No token provided.' });
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    await jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err)
         return res
           .status(500)

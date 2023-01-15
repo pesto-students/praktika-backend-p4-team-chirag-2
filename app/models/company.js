@@ -23,11 +23,11 @@ module.exports = (sequelize, DataTypes) => {
         references: 'users',
         referencesKey: 'id',
       },
-      companyName: {
+      companyname: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      companySize: {
+      companysize: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      linkedIn: {
+      linkedin: {
         type: DataTypes.STRING,
         allowNull: true,
       },
@@ -63,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      crunchBase: {
+      crunchbase: {
         type: DataTypes.STRING,
         allowNull: true,
       },
@@ -71,6 +71,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'company',
+      tableName: 'company',
+      createdAt: false,
+      updatedAt: false,
     }
   );
 

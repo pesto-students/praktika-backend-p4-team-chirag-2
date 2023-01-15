@@ -3,6 +3,7 @@ const models = require('../models');
 const jwt = require('jsonwebtoken');
 const apiResponse = require('../../helpers/apiResponse');
 const { body, validationResult } = require('express-validator');
+const company = require('../models/company');
 
 /**
  * User registration.
@@ -110,6 +111,17 @@ exports.login = [
             },
           })
           .then((user) => {
+            var company_id = 0;
+            if (user.role_id == 1) {
+              models.company
+                .findOne({
+                  attributes: ['id'],
+                  where: {
+                    user_id: user.id,
+                  },
+                })
+                .then((company) => (company_id = company.id));
+            }
             if (user) {
               bcrypt
                 .compare(req.body.password, user.hashedPassword)
@@ -121,6 +133,7 @@ exports.login = [
                       last_name: user.last_name,
                       email: user.email,
                       role_id: user.role_id,
+                      company_id: company_id,
                     };
                     //Prepare JWT token for authentication
                     const jwtPayload = userData;

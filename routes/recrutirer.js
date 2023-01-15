@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const recrutirerController = require('../app/controllers/recruiterController');
-
+const {
+  get,
+  create,
+  update,
+} = require('../app/controllers/recruiterController');
+const authenticateToken = require('../middelware/jwt');
 /**
  * @openpi
  * /api/recrutirer/get
@@ -10,7 +14,7 @@ const recrutirerController = require('../app/controllers/recruiterController');
  *      -recrutirer:
  *      summary: Create api for the recrutirer profie
  */
-router.get('/api/recrutirer', recrutirerController.get);
+router.get('/api/recrutirer', authenticateToken, get);
 
 /**
  * @openpi
@@ -20,7 +24,7 @@ router.get('/api/recrutirer', recrutirerController.get);
  *      -recrutirer:
  *      summary: Create api for the recrutirer profie
  */
-router.post('/api/recrutirer', recrutirerController.create);
+router.post('/api/recrutirer', authenticateToken, create);
 /**
  * @openpi
  * /api/recrutirer
@@ -29,6 +33,6 @@ router.post('/api/recrutirer', recrutirerController.create);
  *      -recrutirer:
  *      summary: Update api for recrutirer pofile
  */
-router.put('/api/recrutirer', recrutirerController.update);
+router.put('/api/recrutirer', authenticateToken, update);
 
 module.exports = router;

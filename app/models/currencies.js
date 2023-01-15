@@ -30,6 +30,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'currencies',
+      tableName: 'currencies',
+      createdAt: false,
+      updatedAt: false,
     }
   );
   return Currencies;

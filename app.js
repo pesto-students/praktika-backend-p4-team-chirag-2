@@ -8,6 +8,7 @@ const sequelize = require('./config/database');
 const authRoutes = require('./routes/auth');
 const recrutirerRoutes = require('./routes/recrutirer');
 const candidateRoutes = require('./routes/candidate');
+const vacancyRoutes = require('./routes/vacancy');
 // const candidatelistRoutes = require('./routes/candidatelist');
 const apiResponse = require('./helpers/apiResponse');
 
@@ -24,6 +25,7 @@ app.use(cors());
 app.use(authRoutes);
 app.use(recrutirerRoutes);
 app.use(candidateRoutes);
+app.use(vacancyRoutes);
 // app.use(candidatelistRoutes);
 
 // throw 404 if URL not found
