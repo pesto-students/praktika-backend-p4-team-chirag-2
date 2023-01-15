@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const CandidateController = require('../app/controllers/CandidateController');
+const {
+  getData,
+  create,
+  update,
+} = require('../app/controllers/CandidateController');
+const authenticateToken = require('../middelware/jwt');
 
 /**
  * @openpi
@@ -10,7 +15,7 @@ const CandidateController = require('../app/controllers/CandidateController');
  *      -Candidate:
  *      summary: get api for candidate pofile
  */
-router.get('/api/candidate/get', CandidateController.get);
+router.get('/api/candidate', authenticateToken, getData);
 
 /**
  * @openpi
@@ -20,7 +25,7 @@ router.get('/api/candidate/get', CandidateController.get);
  *      -Candidate:
  *      summary: Create api for the candidate profie
  */
-router.post('/api/candidate/create', CandidateController.create);
+router.post('/api/candidate', authenticateToken, create);
 /**
  * @openpi
  * /api/candidate/update
@@ -29,6 +34,6 @@ router.post('/api/candidate/create', CandidateController.create);
  *      -Candidate:
  *      summary: Update api for candidate pofile
  */
-router.put('/api/candidate/update', CandidateController.update);
+router.put('/api/candidate', authenticateToken, update);
 
 module.exports = router;
