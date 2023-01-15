@@ -28,10 +28,6 @@
 │   ├── constants.js
 │   ├── mailer.js
 │   └── utility.js
-├── test
-│   ├── testConfig.js
-│   ├── auth.js
-│   └── book.js
 └── public
     ├── index.html
     └── stylesheets

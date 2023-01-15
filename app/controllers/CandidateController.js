@@ -49,7 +49,7 @@ exports.create = [
       return res
         .status(401)
         .send({ auth: false, message: 'No token provided.' });
-    jwt.verify(token, process.env.SECRET, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err)
         return res
           .status(500)
@@ -120,7 +120,7 @@ exports.update = [
       return res
         .status(401)
         .send({ auth: false, message: 'No token provided.' });
-    jwt.verify(token, models.UserData, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err)
         return res
           .status(500)
@@ -192,20 +192,22 @@ exports.update = [
 
 exports.get = [
   async (req, res) => {
+    console.log('reached api candiadte');
     userId = 0;
     const token = req.headers['x-access-token'];
     if (!token)
       return res
         .status(401)
         .send({ auth: false, message: 'No token provided.' });
-    jwt.verify(token, models.UserData, (err, decoded) => {
+    await jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         return res
           .status(500)
           .send({ auth: false, message: 'Failed to authenticate token.' });
       } else {
-        userId = decoded['id'];
-        personal_information
+        console.log(decoded);
+        userId = decoded.id;
+        models.personal_information
           .findOne({
             where: {
               user_id: userId,

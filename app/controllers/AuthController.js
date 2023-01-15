@@ -53,14 +53,14 @@ exports.register = [
         //Prepare JWT token for authentication
         const jwtPayload = userData;
         const jwtData = {
-          expiresIn: process.env.JWT_TIMEOUT_DURATION,
+          expiresIn: process.env.JWT_TIMEOUT_DURATION + 'h',
         };
         const secret = process.env.JWT_SECRET;
         //Generated JWT token with Payload and secret.
         userData.token = jwt.sign(jwtPayload, secret, jwtData);
         return apiResponse.successResponseWithData(
           res,
-          'Login Success.',
+          'Registration Success.',
           userData
         );
       }
@@ -104,7 +104,7 @@ exports.login = [
       } else {
         models.users
           .findOne({
-            attributes: ['first_name', 'last_name', 'email', 'hashedPassword'],
+            attributes: ['id', 'email', 'role_id', 'hashedPassword'],
             where: {
               email: req.body.email,
             },
@@ -125,7 +125,7 @@ exports.login = [
                     //Prepare JWT token for authentication
                     const jwtPayload = userData;
                     const jwtData = {
-                      expiresIn: process.env.JWT_TIMEOUT_DURATION,
+                      expiresIn: process.env.JWT_TIMEOUT_DURATION + 'h',
                     };
                     const secret = process.env.JWT_SECRET;
                     //Generated JWT token with Payload and secret.

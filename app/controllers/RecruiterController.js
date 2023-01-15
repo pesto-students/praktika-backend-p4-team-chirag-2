@@ -5,19 +5,21 @@ const company = require('../models/company');
 
 exports.get = [
   async (req, res) => {
+    console.log('reached get function');
     userId = 0;
     const token = req.headers['x-access-token'];
+    console.log(token);
     if (!token)
       return res
         .status(401)
         .send({ auth: false, message: 'No token provided.' });
-    jwt.verify(token, models.UserData, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         return res
           .status(500)
           .send({ auth: false, message: 'Failed to authenticate token.' });
       } else {
-        userId = decoded['id'];
+        userId = decoded.id;
         company
           .findOne({
             where: {
@@ -47,7 +49,7 @@ exports.create = [
       return res
         .status(401)
         .send({ auth: false, message: 'No token provided.' });
-    jwt.verify(token, process.env.SECRET, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err)
         return res
           .status(500)
@@ -96,15 +98,14 @@ exports.update = [
   check('companyName').exists().withMessage('Company Name is required'),
   check('companySize').exists().withMessage('Company Size is required'),
   check('industry').exists().withMessage('Industry is required'),
-  ,
   // Process request after validation and sanitization.
-  async (req, res) => {
+  (req, res) => {
     const token = req.headers['x-access-token'];
     if (!token)
       return res
         .status(401)
         .send({ auth: false, message: 'No token provided.' });
-    jwt.verify(token, models.UserData, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err)
         return res
           .status(500)

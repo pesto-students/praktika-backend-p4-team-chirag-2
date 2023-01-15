@@ -79,7 +79,7 @@ exports.create = [
       return res
         .status(401)
         .send({ auth: false, message: 'No token provided.' });
-    jwt.verify(token, models.UserData, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err)
         return res
           .status(500)
@@ -164,7 +164,7 @@ exports.update = [
       return res
         .status(401)
         .send({ auth: false, message: 'No token provided.' });
-    jwt.verify(token, models.UserData, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err)
         return res
           .status(500)
@@ -216,7 +216,7 @@ exports.delete = [
       return res
         .status(401)
         .send({ auth: false, message: 'No token provided.' });
-    jwt.verify(token, models.UserData, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err)
         return res
           .status(500)

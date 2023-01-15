@@ -6,6 +6,9 @@ const cors = require('cors');
 const router = express.Router();
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/auth');
+const recrutirerRoutes = require('./routes/recrutirer');
+const candidateRoutes = require('./routes/candidate');
+// const candidatelistRoutes = require('./routes/candidatelist');
 const apiResponse = require('./helpers/apiResponse');
 
 const app = express();
@@ -15,22 +18,13 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-const swaggerUi = require('swagger-ui-express'),
-  swaggerDocument = require('./swagger.json');
-var options = {
-  explorer: true,
-  apis: ['./routes/*.js'],
-};
-app.use(
-  '/api-docs',
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerDocument, options)
-);
-
 //To allow cross-origin requests
 app.use(cors());
 
 app.use(authRoutes);
+app.use(recrutirerRoutes);
+app.use(candidateRoutes);
+// app.use(candidatelistRoutes);
 
 // throw 404 if URL not found
 app.all('*', function (req, res) {
