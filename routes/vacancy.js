@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const recrutirerController = require('../app/controllers/recruiterController');
-const vacancyController = require('../app/controllers/vacancyController');
+const recrutirerController = require('../app/controllers/RecruiterController');
+const vacancyController = require('../app/controllers/VacancyController');
 const dashboardController = require('../app/controllers/DashboardController');
 /**
  * @openpi

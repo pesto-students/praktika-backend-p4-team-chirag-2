@@ -4,7 +4,7 @@ const {
   get,
   create,
   update,
-} = require('../app/controllers/recruiterController');
+} = require('../app/controllers/RecruiterController');
 const authenticateToken = require('../middelware/jwt');
 /**
  * @openpi

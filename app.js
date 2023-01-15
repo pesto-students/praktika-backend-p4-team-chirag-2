@@ -9,6 +9,7 @@ const authRoutes = require('./routes/auth');
 const recrutirerRoutes = require('./routes/recrutirer');
 const candidateRoutes = require('./routes/candidate');
 const vacancyRoutes = require('./routes/vacancy');
+const cityRoutes = require('./routes/city');
 // const candidatelistRoutes = require('./routes/candidatelist');
 const apiResponse = require('./helpers/apiResponse');
 
@@ -26,6 +27,7 @@ app.use(authRoutes);
 app.use(recrutirerRoutes);
 app.use(candidateRoutes);
 app.use(vacancyRoutes);
+app.use(cityRoutes);
 // app.use(candidatelistRoutes);
 
 // throw 404 if URL not found
