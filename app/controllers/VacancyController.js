@@ -201,4 +201,47 @@ const deleteData = async (req, res) => {
   }
 };
 
-module.exports = { getData, create, update, deleteData };
+const getSkills = async (req, res) => {
+  // Verify the JWT token in the request header
+  try {
+    // Find all vacancies of the specific company
+    console.log(req);
+    let skill = models.skills.findAll();
+    skill
+      .then((skills) => {
+        res.json(skills);
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const getjobcategory = async (req, res) => {
+  // Verify the JWT token in the request header
+  try {
+    // Find all vacancies of the specific company
+    console.log(req);
+    let job_categorys = models.job_categorys.findAll();
+    job_categorys
+      .then((categorys) => {
+        res.json(categorys);
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+module.exports = {
+  getData,
+  create,
+  update,
+  deleteData,
+  getSkills,
+  getjobcategory,
+};

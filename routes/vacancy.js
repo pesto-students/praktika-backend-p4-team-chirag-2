@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const recrutirerController = require('../app/controllers/RecruiterController');
 const {
+  getjobcategory,
+  getSkills,
   getData,
   create,
   update,
@@ -47,5 +49,25 @@ router.put('/api/vacancy', authenticateToken, update);
  *      summary: delete api for vacancy
  */
 router.delete('/api/vacancy', authenticateToken, deleteData);
+
+/**
+ * @openpi
+ * /api/vacancy
+ * put:
+ *  tags:
+ *      -skills:
+ *      summary: Get all skills api
+ */
+router.get('/api/vacancy/getskills', authenticateToken, getSkills);
+
+/**
+ * @openpi
+ * /api/vacancy
+ * put:
+ *  tags:
+ *      -skills:
+ *      summary: Get all Job Category api
+ */
+router.get('/api/vacancy/getjobcategory', authenticateToken, getjobcategory);
 
 module.exports = router;
