@@ -3,15 +3,61 @@ const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const models = require('../models');
 const vacancy = require('../models/vacancy');
+const { sequelize } = require('sequelize');
 
 const getData = async (req, res) => {
-  // Verify the JWT token in the request header
   try {
     // Find all vacancies of the specific company
-    console.log(req);
-    let vacancies = models.vacancy.findAll({
-      where: { company_id: req.decoded.company_id },
-    });
+    console.log('before query');
+    let vacancies = models.vacancy.findAll(
+      {
+        where: { company_id: req.decoded.company_id },
+      },
+      {
+        attributes: [
+          'id',
+          'company_id',
+          'jobtitle',
+          'jobdescription',
+          'numberofvacancy',
+          [sequelize.col('jobcategory.name'), 'jobcategory'],
+          [sequelize.col('country.name'), 'country'],
+          [sequelize.col('state.name'), 'state'],
+          [sequelize.col('city.name'), 'city'],
+          'experiencelevel',
+          'minimumexperience',
+          'maximumexperience',
+          [sequelize.col('currency.name'), 'currency'],
+          [sequelize.col('currency.symbol'), 'currency_symbol'],
+          'expectedsalaryfrom',
+          'expectedsalaryto',
+        ],
+        include: [
+          {
+            model: models.jobcategory,
+            attributes: [],
+          },
+          {
+            model: models.country,
+            attributes: [],
+          },
+          {
+            model: models.state,
+            attributes: [],
+          },
+          {
+            model: models.city,
+            attributes: [],
+          },
+          {
+            model: models.currency,
+            attributes: [],
+          },
+        ],
+      }
+    );
+
+    console.log('after query');
     console.log(vacancies);
     // Filter the result based on jobCategory and jobType
     if (req.query.jobcategory) {
