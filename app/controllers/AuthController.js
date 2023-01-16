@@ -112,7 +112,7 @@ exports.login = [
           })
           .then(async (user) => {
             var company_id = 0;
-            if (user.role_id == 1) {
+            if (user.role_id == 2) {
               await models.company
                 .findOne({
                   attributes: ['id'],
