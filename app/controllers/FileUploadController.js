@@ -19,11 +19,13 @@ const s3 = new AWS.S3();
 const uploadResume = multer({
   storage: multerS3({
     s3: s3,
-    bucket: process.env.BUCKET_NAME + '//',
+    bucket: (request, file, cb) => {
+      cb(process.env.BUCKET_NAME + '/' + request.decoded.id + '/resume/');
+    },
     acl: 'public-read',
     metadata: (req, file, cb) => {
       cb(null, {
-        fieldName: req.decoded.user_id + '//resume/' + file.fieldname,
+        fieldName: file.fieldname,
       });
     },
     key: (req, file, cb) => {
@@ -35,11 +37,13 @@ const uploadResume = multer({
 const uploadVideo = multer({
   storage: multerS3({
     s3: s3,
-    bucket: process.env.BUCKET_NAME,
+    bucket: (request, file, cb) => {
+      cb(process.env.BUCKET_NAME + '/' + request.decoded.id + '/video/');
+    },
     acl: 'public-read',
     metadata: (req, file, cb) => {
       cb(null, {
-        fieldName: req.decoded.user_id + '//video//' + file.fieldname,
+        fieldName: file.fieldname,
       });
     },
     key: (req, file, cb) => {
