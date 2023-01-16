@@ -101,7 +101,12 @@ const create =
         expectedsalaryfrom: req.body.expectedsalaryfrom,
         expectedsalaryto: req.body.expectedsalaryto,
       });
-
+      req.body.skills.forEach(async (skill) => {
+        await models.vacancy_skills.create({
+          vacancy_id: vacancyData.id,
+          skills_id: skill,
+        });
+      });
       return res.status(201).json({
         message: 'Vacancy created successfully',
         vacancyData,
@@ -160,6 +165,15 @@ const update = async (req, res) => {
     if (!vacancy) {
       return res.status(404).json({ error: 'vacancy not found' });
     }
+    var vacancy_skills_data = [];
+    await models.vacancy_skills
+      .findAll({
+        where: { vacancy_id: vacancy.id },
+      })
+      .then((skills) => {
+        vacancy_skills_data = skills;
+      });
+
     await vacancy.update({
       company_id: req.decoded.company_id,
       jobtitle: req.body.jobtitle,
@@ -177,7 +191,15 @@ const update = async (req, res) => {
       expectedsalaryfrom: req.body.expectedsalaryfrom,
       expectedsalaryto: req.body.expectedsalaryto,
     });
-
+    vacancy_skills_data.forEach(async (skill) => {
+      await skill.destroy();
+    });
+    req.body.skills.forEach(async (skill) => {
+      await models.vacancy_skills.create({
+        vacancy_id: req.body.id,
+        skills_id: skill,
+      });
+    });
     return res.status(201).json({
       message: 'Vacancy Updated successfully',
       vacancy,

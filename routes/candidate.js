@@ -5,6 +5,10 @@ const {
   create,
   update,
 } = require('../app/controllers/CandidateController');
+const {
+  uploadResume,
+  uploadVideo,
+} = require('../app/controllers/FileUploadController');
 const authenticateToken = require('../middelware/jwt');
 
 /**
@@ -35,5 +39,32 @@ router.post('/api/candidate', authenticateToken, create);
  *      summary: Update api for candidate pofile
  */
 router.put('/api/candidate', authenticateToken, update);
+
+// create an endpoint for file uploads
+router.post(
+  '/api/uploadresume',
+  authenticateToken,
+  uploadResume.single('file'),
+  (req, res, next) => {
+    if (!req.file) {
+      res.status(400).send({ error: 'Please provide a file to upload' });
+    } else {
+      res.send({ url: req.file.location });
+    }
+  }
+);
+
+router.post(
+  '/api/uploadvideo',
+  authenticateToken,
+  uploadVideo.single('file'),
+  (req, res, next) => {
+    if (!req.file) {
+      res.status(400).send({ error: 'Please provide a file to upload' });
+    } else {
+      res.send({ url: req.file.location });
+    }
+  }
+);
 
 module.exports = router;

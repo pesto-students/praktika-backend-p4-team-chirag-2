@@ -111,20 +111,22 @@ exports.login = [
             },
           })
           .then(async (user) => {
-            var company_id = 0;
-            console.log(user.id);
-            if (user.role_id == 2) {
-              await models.company
-                .findOne({
-                  attributes: ['id'],
-                  where: {
-                    user_id: user.id,
-                  },
-                })
-                .then((company) => {
-                  console.log('comapny Id:' + company.id);
-                  company_id = company.id;
-                });
+            if (user) {
+              var company_id = 0;
+              console.log(user.id);
+              if (user.role_id == 2) {
+                await models.company
+                  .findOne({
+                    attributes: ['id'],
+                    where: {
+                      user_id: user.id,
+                    },
+                  })
+                  .then((company) => {
+                    console.log('comapny Id:' + company.id);
+                    company_id = company.id;
+                  });
+              }
             }
             if (user) {
               bcrypt
