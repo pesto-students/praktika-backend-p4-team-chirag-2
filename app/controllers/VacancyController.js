@@ -237,7 +237,67 @@ const getjobcategory = async (req, res) => {
   }
 };
 
+const getCountrys = async (req, res) => {
+  // Verify the JWT token in the request header
+  try {
+    // Find all vacancies of the specific company
+    console.log(req);
+    let countrys = models.country.findAll();
+    countrys
+      .then((country) => {
+        res.json(country);
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const getStates = async (req, res) => {
+  try {
+    // Find all vacancies of the specific company
+    console.log(req.body.country_id);
+    let states = models.state.findAll({
+      where: { country_id: req.body.country_id },
+    });
+    states
+      .then((state) => {
+        res.json(state);
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const getCitys = async (req, res) => {
+  // Verify the JWT token in the request header
+  try {
+    // Find all vacancies of the specific company
+    console.log(req);
+    let citys = models.city.findAll({
+      where: { state_id: req.body.state_id },
+    });
+    citys
+      .then((city) => {
+        res.json(city);
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 module.exports = {
+  getCountrys,
+  getStates,
+  getCitys,
   getData,
   create,
   update,

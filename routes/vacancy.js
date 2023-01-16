@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const recrutirerController = require('../app/controllers/RecruiterController');
 const {
+  getCountrys,
+  getStates,
+  getCitys,
   getjobcategory,
   getSkills,
   getData,
@@ -70,4 +73,33 @@ router.get('/api/vacancy/getskills', authenticateToken, getSkills);
  */
 router.get('/api/vacancy/getjobcategory', authenticateToken, getjobcategory);
 
+/**
+ * @openpi
+ * /api/vacancy
+ * put:
+ *  tags:
+ *      -skills:
+ *      summary: Get all Country api
+ */
+router.get('/api/vacancy/getCountrys', authenticateToken, getCountrys);
+
+/**
+ * @openpi
+ * /api/vacancy
+ * put:
+ *  tags:
+ *      -skills:
+ *      summary: Get all States api
+ */
+router.post('/api/vacancy/getStates', authenticateToken, getStates);
+
+/**
+ * @openpi
+ * /api/vacancy
+ * put:
+ *  tags:
+ *      -skills:
+ *      summary: Get all Citys api
+ */
+router.post('/api/vacancy/getCitys', authenticateToken, getCitys);
 module.exports = router;
