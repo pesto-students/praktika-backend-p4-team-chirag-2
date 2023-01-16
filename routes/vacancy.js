@@ -1,8 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const recrutirerController = require('../app/controllers/RecruiterController');
-const vacancyController = require('../app/controllers/VacancyController');
+const {
+  getData,
+  create,
+  update,
+  deleteData,
+} = require('../app/controllers/VacancyController');
 const dashboardController = require('../app/controllers/DashboardController');
+const authenticateToken = require('../middelware/jwt');
 /**
  * @openpi
  * /api/vacancy
@@ -11,7 +17,7 @@ const dashboardController = require('../app/controllers/DashboardController');
  *      -vacancy:
  *      summary: get vacancys api
  */
-router.get('/api/vacancy', vacancyController.get);
+router.get('/api/vacancy', authenticateToken, getData);
 
 /**
  * @openpi
@@ -21,7 +27,7 @@ router.get('/api/vacancy', vacancyController.get);
  *      -vacancy:
  *      summary: Create vacancy api
  */
-router.post('/api/vacancy', vacancyController.create);
+router.post('/api/vacancy', authenticateToken, create);
 /**
  * @openpi
  * /api/vacancy
@@ -30,7 +36,7 @@ router.post('/api/vacancy', vacancyController.create);
  *      -vacancy:
  *      summary: Update api for vacancy
  */
-router.put('/api/vacancy', vacancyController.update);
+router.put('/api/vacancy', authenticateToken, update);
 
 /**
  * @openpi
@@ -40,6 +46,6 @@ router.put('/api/vacancy', vacancyController.update);
  *      -vacancy:
  *      summary: delete api for vacancy
  */
-router.delete('/api/vacancy', vacancyController.delete);
+router.delete('/api/vacancy', authenticateToken, deleteData);
 
 module.exports = router;

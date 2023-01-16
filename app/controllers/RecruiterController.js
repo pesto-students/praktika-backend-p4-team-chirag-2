@@ -21,6 +21,7 @@ const get = async (req, res) => {
     });
 };
 const create = async (req, res) => {
+  console.log(req);
   // Validate fields.
   check('companyname').exists().withMessage('Company Name is required'),
     check('companysize').exists().withMessage('Company Size is required'),
@@ -36,17 +37,18 @@ const create = async (req, res) => {
     try {
       // Create the recruiter
       const companyData = await models.company.create({
-        companyName: req.body.companyName,
-        companySize: req.body.companySize,
+        companyname: req.body.companyname,
+        companysize: req.body.companysize,
+        user_id: req.decoded.id,
         industry: req.body.industry,
         overview: req.body.overview,
         values: req.body.values,
         benefits: req.body.benefits,
         website: req.body.website,
-        linkedIn: req.body.linkedIn,
+        linkedin: req.body.linkedin,
         facebook: req.body.facebook,
         glassdoor: req.body.glassdoor,
-        crunchBase: req.body.crunchBase,
+        crunchbase: req.body.crunchbase,
       });
 
       return apiResponse.successResponseWithData(
@@ -64,11 +66,11 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   // Validate fields.
+  console.log(req);
   check('companyname').exists().withMessage('Company Name is required'),
     check('companysize').exists().withMessage('Company Size is required'),
     check('industry').exists().withMessage('Industry is required');
   // Process request after validation and sanitization.
-
   try {
     // Extract the validation errors from a request.
     const errors = validationResult(req);
@@ -80,28 +82,32 @@ const update = async (req, res) => {
         errors.array()
       );
     } else {
-      req.body.userId = decoded.id;
+      req.body.userId = req.decoded.id;
       try {
         // Find the recruiter to update
-        const companyData = await company.findByPk(req.params.id);
+        const companyData = await models.company.findByPk(req.body.id);
         if (!companyData) {
           return res.status(404).json({ error: 'Recruiter not found' });
         }
         // Update the recruiter
-        companyData.update({
-          companyName: req.body.companyName,
-          companySize: req.body.companySize,
+        await companyData.update({
+          companyname: req.body.companyname,
+          companysize: req.body.companysize,
           industry: req.body.industry,
           overview: req.body.overview,
           values: req.body.values,
           benefits: req.body.benefits,
           website: req.body.website,
-          linkedIn: req.body.linkedIn,
+          linkedin: req.body.linkedin,
           facebook: req.body.facebook,
           glassdoor: req.body.glassdoor,
-          crunchBase: req.body.crunchBase,
+          crunchbase: req.body.crunchbase,
         });
-        res.json({ companyData });
+        return apiResponse.successResponseWithData(
+          res,
+          'Profile created Successfully.',
+          companyData
+        );
       } catch (error) {
         return apiResponse.ErrorResponse(res, error.message);
       }

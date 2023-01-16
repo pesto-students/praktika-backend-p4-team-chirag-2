@@ -103,17 +103,17 @@ exports.login = [
           errors.array()
         );
       } else {
-        models.users
+        await models.users
           .findOne({
             attributes: ['id', 'email', 'role_id', 'hashedPassword'],
             where: {
               email: req.body.email,
             },
           })
-          .then((user) => {
+          .then(async (user) => {
             var company_id = 0;
             if (user.role_id == 1) {
-              models.company
+              await models.company
                 .findOne({
                   attributes: ['id'],
                   where: {
