@@ -23,23 +23,23 @@ module.exports = (sequelize, DataTypes) => {
         references: 'company',
         referencesKey: 'id',
       },
-      jobTitle: {
+      jobtitle: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      jobDescription: {
+      jobdescription: {
         type: DataTypes.TEXT,
         allowNull: false,
       },
-      numberOfVacancy: {
+      numberofvacancy: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      jobCategory: {
+      jobcategory: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      jobType: {
+      jobtype: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
@@ -55,15 +55,15 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      experienceLevel: {
+      experiencelevel: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      minimumExperience: {
+      minimumexperience: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      maximumExperience: {
+      maximumexperience: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
@@ -71,11 +71,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      expectedSalaryFrom: {
+      expectedsalaryfrom: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
       },
-      expectedSalaryTo: {
+      expectedsalaryto: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
       },

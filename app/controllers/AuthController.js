@@ -112,6 +112,7 @@ exports.login = [
           })
           .then(async (user) => {
             var company_id = 0;
+            console.log(user.id);
             if (user.role_id == 2) {
               await models.company
                 .findOne({
@@ -120,7 +121,10 @@ exports.login = [
                     user_id: user.id,
                   },
                 })
-                .then((company) => (company_id = company.id));
+                .then((company) => {
+                  console.log('comapny Id:' + company.id);
+                  company_id = company.id;
+                });
             }
             if (user) {
               bcrypt

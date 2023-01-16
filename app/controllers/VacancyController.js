@@ -2,30 +2,40 @@ const apiResponse = require('../../helpers/apiResponse');
 const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const models = require('../models');
+const vacancy = require('../models/vacancy');
 
 const getData = async (req, res) => {
   // Verify the JWT token in the request header
   try {
     // Find all vacancies of the specific company
+    console.log(req);
     let vacancies = models.vacancy.findAll({
-      where: { company_id: company_id },
+      where: { company_id: req.decoded.company_id },
     });
+    console.log(vacancies);
     // Filter the result based on jobCategory and jobType
-    if (req.query.jobCategory) {
+    if (req.query.jobcategory) {
       vacancies = vacancies.filter(
         (vacancy) => models.vacancy.jobCategory === req.query.jobCategory
       );
     }
-    if (req.query.jobType) {
+    if (req.query.jobtype) {
       vacancies = vacancies.filter(
         (vacancy) => models.vacancy.jobType === req.query.jobType
       );
     }
-    res.json({ vacancies });
+    vacancies
+      .then((vacancy) => {
+        res.json(vacancy);
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
   } catch (error) {
-    res.status(401).json({ error: 'Invalid token' });
+    res.status(500).send(error);
   }
 };
+
 const create =
   // Validate fields.
   async (req, res) => {
@@ -97,10 +107,11 @@ const create =
         vacancyData,
       });
     } catch (error) {
-      console.log(error);
+      return res.status(400).json({ errors: error });
     }
   };
 const update = async (req, res) => {
+  console.log(req.body);
   // Validate fields.
   check('jobtitle').not().isEmpty().withMessage('Job title is required'),
     check('jobdescription')
@@ -145,12 +156,12 @@ const update = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const vacancy = await models.vacancy.findByPk(req.params.id);
+    const vacancy = await models.vacancy.findByPk(req.body.id);
     if (!vacancy) {
       return res.status(404).json({ error: 'vacancy not found' });
     }
-    await models.vacancy.update({
-      company_id: req.body.company_id,
+    await vacancy.update({
+      company_id: req.decoded.company_id,
       jobtitle: req.body.jobtitle,
       jobdescription: req.body.jobdescription,
       numberofvacancy: req.body.numberofvacancy,
@@ -168,22 +179,22 @@ const update = async (req, res) => {
     });
 
     return res.status(201).json({
-      message: 'Vacancy created successfully',
-      vacancyData,
+      message: 'Vacancy Updated successfully',
+      vacancy,
     });
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({ errors: error });
   }
 };
 
 const deleteData = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.body;
     const vacancy = await models.vacancy.findByPk(id);
     if (!vacancy) {
       return res.status(404).json({ message: 'Vacancy not found' });
     }
-    await models.vacancy.destroy();
+    await vacancy.destroy();
     return res.status(200).json({ message: 'Vacancy deleted successfully' });
   } catch (error) {
     console.log(error);
