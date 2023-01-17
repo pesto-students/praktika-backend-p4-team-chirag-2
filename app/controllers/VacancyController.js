@@ -8,10 +8,9 @@ const { sequelize } = require('sequelize');
 const getData = async (req, res) => {
   try {
     // Find all vacancies of the specific company
-    console.log('before query');
     let vacancies = models.vacancy.findAll(
       {
-        where: { company_id: req.decoded.company_id },
+        where: { company_id: req.body.company_id },
       },
       {
         attributes: [
@@ -20,15 +19,21 @@ const getData = async (req, res) => {
           'jobtitle',
           'jobdescription',
           'numberofvacancy',
-          [sequelize.col('jobcategory.name'), 'jobcategory'],
-          [sequelize.col('country.name'), 'country'],
-          [sequelize.col('state.name'), 'state'],
-          [sequelize.col('city.name'), 'city'],
+          ['jobcategory.name','jobcategory'],
+          ['country.name','country'],
+          ['state.name','state'],
+          ['city.name','city'],
+          // [sequelize.col('jobcategory.name'), 'jobcategory'],
+          // [sequelize.col('country.name'), 'country'],
+          // [sequelize.col('state.name'), 'state'],
+          // [sequelize.col('city.name'), 'city'],
           'experiencelevel',
           'minimumexperience',
           'maximumexperience',
-          [sequelize.col('currency.name'), 'currency'],
-          [sequelize.col('currency.symbol'), 'currency_symbol'],
+          ['currency.name', 'currency'],
+          ['currency.symbol', 'currency_symbol'],
+          // [sequelize.col('currency.name'), 'currency'],
+          // [sequelize.col('currency.symbol'), 'currency_symbol'],
           'expectedsalaryfrom',
           'expectedsalaryto',
         ],
@@ -57,8 +62,6 @@ const getData = async (req, res) => {
       }
     );
 
-    console.log('after query');
-    console.log(vacancies);
     // Filter the result based on jobCategory and jobType
     if (req.query.jobcategory) {
       vacancies = vacancies.filter(
@@ -78,6 +81,7 @@ const getData = async (req, res) => {
         res.status(500).send(error);
       });
   } catch (error) {
+    console.log(error);
     res.status(500).send(error);
   }
 };
