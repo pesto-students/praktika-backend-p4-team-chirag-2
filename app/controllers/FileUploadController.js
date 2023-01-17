@@ -19,17 +19,29 @@ const s3 = new AWS.S3();
 const uploadResume = multer({
   storage: multerS3({
     s3: s3,
-    bucket: (request, file, cb) => {
-      cb(process.env.BUCKET_NAME + '/' + request.decoded.id + '/resume/');
+    bucket: (req, file, cb) => {
+      try {
+        cb(null, process.env.BUCKET_NAME + '/' + req.decoded.id + '/resume');
+      } catch (err) {
+        cb(err, null);
+      }
     },
     acl: 'public-read',
     metadata: (req, file, cb) => {
-      cb(null, {
-        fieldName: file.fieldname,
-      });
+      try {
+        cb(null, {
+          fieldName: file.fieldname,
+        });
+      } catch (err) {
+        cb(err, null);
+      }
     },
     key: (req, file, cb) => {
-      cb(null, Date.now().toString() + file.originalname);
+      try {
+        cb(null, Date.now().toString() + file.originalname);
+      } catch (err) {
+        cb(err, null);
+      }
     },
   }),
 });
@@ -37,17 +49,29 @@ const uploadResume = multer({
 const uploadVideo = multer({
   storage: multerS3({
     s3: s3,
-    bucket: (request, file, cb) => {
-      cb(process.env.BUCKET_NAME + '/' + request.decoded.id + '/video/');
+    bucket: (req, file, cb) => {
+      try {
+        cb(null, process.env.BUCKET_NAME + '/' + req.decoded.id + '/video');
+      } catch (err) {
+        cb(err, null);
+      }
     },
     acl: 'public-read',
     metadata: (req, file, cb) => {
-      cb(null, {
-        fieldName: file.fieldname,
-      });
+      try {
+        cb(null, {
+          fieldName: file.fieldname,
+        });
+      } catch (err) {
+        cb(err, null);
+      }
     },
     key: (req, file, cb) => {
-      cb(null, Date.now().toString() + file.originalname);
+      try {
+        cb(null, Date.now().toString() + file.originalname);
+      } catch (err) {
+        cb(err, null);
+      }
     },
   }),
 });

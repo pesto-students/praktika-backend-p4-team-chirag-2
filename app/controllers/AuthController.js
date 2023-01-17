@@ -123,8 +123,10 @@ exports.login = [
                     },
                   })
                   .then((company) => {
-                    console.log('comapny Id:' + company.id);
-                    company_id = company.id;
+                    if (company) {
+                      console.log('comapny Id:' + company.id);
+                      company_id = company.id;
+                    }
                   });
               }
             }
