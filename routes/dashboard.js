@@ -4,7 +4,7 @@ const {
   getPendingVacancy,
   getAllCount,
   getPendingInterviews,
-} = require('../app/controllers/dashboardController');
+} = require('../app/controllers/DashboardController');
 const authenticateToken = require('../middelware/jwt');
 
 /**
