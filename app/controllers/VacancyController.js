@@ -2,9 +2,6 @@ const apiResponse = require('../../helpers/apiResponse');
 const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const models = require('../models');
-const vacancy = require('../models/vacancy');
-const { sequelize } = require('sequelize');
-
 const getData = async (req, res) => {
   try {
     // Find all vacancies of the specific company
@@ -23,17 +20,11 @@ const getData = async (req, res) => {
           ['country.name', 'country'],
           ['state.name', 'state'],
           ['city.name', 'city'],
-          // [sequelize.col('jobcategory.name'), 'jobcategory'],
-          // [sequelize.col('country.name'), 'country'],
-          // [sequelize.col('state.name'), 'state'],
-          // [sequelize.col('city.name'), 'city'],
           'experiencelevel',
           'minimumexperience',
           'maximumexperience',
           ['currency.name', 'currency'],
           ['currency.symbol', 'currency_symbol'],
-          // [sequelize.col('currency.name'), 'currency'],
-          // [sequelize.col('currency.symbol'), 'currency_symbol'],
           'expectedsalaryfrom',
           'expectedsalaryto',
         ],
