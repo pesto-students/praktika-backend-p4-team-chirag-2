@@ -19,10 +19,10 @@ const getData = async (req, res) => {
           'jobtitle',
           'jobdescription',
           'numberofvacancy',
-          ['jobcategory.name','jobcategory'],
-          ['country.name','country'],
-          ['state.name','state'],
-          ['city.name','city'],
+          ['jobcategory.name', 'jobcategory'],
+          ['country.name', 'country'],
+          ['state.name', 'state'],
+          ['city.name', 'city'],
           // [sequelize.col('jobcategory.name'), 'jobcategory'],
           // [sequelize.col('country.name'), 'country'],
           // [sequelize.col('state.name'), 'state'],
@@ -366,6 +366,27 @@ const getCitys = async (req, res) => {
   }
 };
 
+const getCandidateListing = async (req, res) => {
+  console.log(req.decoded);
+  userId = req.decoded.id;
+  personalInformation = models.personal_information.findAll();
+
+  if (req.query.jobcategory) {
+    personalInformation = personalInformation.filter(
+      (informations) =>
+        models.personal_information.job_category_id === req.query.jobCategory
+    );
+  }
+
+  personalInformation
+    .then((personalInformation) => {
+      res.json(personalInformation);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+};
+
 module.exports = {
   getCountrys,
   getStates,
@@ -376,4 +397,5 @@ module.exports = {
   deleteData,
   getSkills,
   getjobcategory,
+  getCandidateListing,
 };

@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const {
+  acceptjoboffers,
+  getjoboffers,
   getData,
   create,
   update,
@@ -65,6 +67,30 @@ router.post(
       res.send({ url: req.file.location });
     }
   }
+);
+
+/**
+ * @openpi
+ * /api/candidate/getcanidatelist
+ * post:
+ *  tags:
+ *      -Candidate:
+ *      summary: get api for candidate list
+ */
+router.get('/api/candidate/getjoboffers', authenticateToken, getjoboffers);
+
+/**
+ * @openpi
+ * /api/candidate/acceptjoboffers
+ * post:
+ *  tags:
+ *      -Candidate:
+ *      summary: get api for candidate list
+ */
+router.put(
+  '/api/candidate/acceptjoboffers',
+  authenticateToken,
+  acceptjoboffers
 );
 
 module.exports = router;

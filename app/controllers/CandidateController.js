@@ -167,4 +167,112 @@ const update = async (req, res) => {
   }
 };
 
-module.exports = { getData, create, update };
+const getjoboffers = async (req, res) => {
+  userId = req.decoded.id;
+  models.job_application
+    .findAll({
+      where: {
+        user_id: userId,
+      },
+      attributes: [
+        'id',
+        'vacancy_id',
+        'user_id',
+        'interviewdate',
+        'status',
+        ['company.name', 'company_name'],
+        ['vacancy.jobtitle', 'jobtitle'],
+        ['vacancy.jobdescription', 'jobdescription'],
+        ['vacancy.numberofvacancy', 'numberofvacancy'],
+        ['jobcategory.name', 'jobcategory'],
+        ['country.name', 'country'],
+        ['state.name', 'state'],
+        ['city.name', 'city'],
+        'experiencelevel',
+        ['vacancy.minimumexperience', 'minimumexperience'],
+        ['vacancy.maximumexperience', 'maximumexperience'],
+        ['currency.name', 'currency'],
+        ['currency.symbol', 'currency_symbol'],
+        ['vacancy.expectedsalaryfrom', 'expectedsalaryfrom'],
+        ['vacancy.expectedsalaryto', 'expectedsalaryto'],
+      ],
+      include: [
+        {
+          model: models.vacancy,
+          as: 'vacancy',
+          attributes: [
+            'id',
+            'company_id',
+            'jobtitle',
+            'jobdescription',
+            'numberofvacancy',
+            ['jobcategory.name', 'jobcategory'],
+            ['country.name', 'country'],
+            ['state.name', 'state'],
+            ['city.name', 'city'],
+            'experiencelevel',
+            'minimumexperience',
+            'maximumexperience',
+            ['currency.name', 'currency'],
+            ['currency.symbol', 'currency_symbol'],
+            'expectedsalaryfrom',
+            'expectedsalaryto',
+          ],
+          include: [
+            {
+              model: models.jobcategory,
+              as: 'jobcategory',
+              attributes: ['name'],
+            },
+            {
+              model: models.country,
+              as: 'country',
+              attributes: ['name'],
+            },
+            {
+              model: models.tate,
+              as: 'state',
+              attributes: ['name'],
+            },
+            {
+              model: models.city,
+              as: 'city',
+              attributes: ['name'],
+            },
+            {
+              model: models.currency,
+              as: 'currency',
+              attributes: ['name', 'symbol'],
+            },
+          ],
+        },
+        {
+          model: models.company,
+          as: 'company',
+          attributes: ['name'],
+        },
+      ],
+    })
+    .then((companys) => {
+      res.json(companys);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+};
+
+const acceptjoboffers = async (req, res) => {
+  var job_vacancy = models.job_vacancy.findOne({
+    where: {
+      id: req.body.id,
+    },
+  });
+  if (job_vacancy) {
+    job_vacancy.update({
+      id: req.params.id,
+      status,
+    });
+  }
+};
+
+module.exports = { getData, create, update, getjoboffers, acceptjoboffers };

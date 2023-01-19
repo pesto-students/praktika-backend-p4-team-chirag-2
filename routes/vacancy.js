@@ -11,6 +11,7 @@ const {
   create,
   update,
   deleteData,
+  getCandidateListing,
 } = require('../app/controllers/VacancyController');
 const dashboardController = require('../app/controllers/DashboardController');
 const authenticateToken = require('../middelware/jwt');
@@ -102,4 +103,32 @@ router.post('/api/vacancy/getStates', authenticateToken, getStates);
  *      summary: Get all Citys api
  */
 router.post('/api/vacancy/getCitys', authenticateToken, getCitys);
+
+/**
+ * @openpi
+ * /api/vacancy
+ * put:
+ *  tags:
+ *      -skills:
+ *      summary: Get all Candidate api
+ */
+router.get(
+  '/api/vacancy/getCandidateListing',
+  authenticateToken,
+  getCandidateListing
+);
+
+/**
+ * @openpi
+ * /api/vacancy
+ * put:
+ *  tags:
+ *      -skills:
+ *      summary: Get all Candidate api
+ */
+// router.put(
+//   '/api/vacancy/sendrequest',
+//   recrutirerController.sentcandidateinvite
+// );
+
 module.exports = router;
