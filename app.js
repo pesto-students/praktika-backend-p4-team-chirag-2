@@ -10,6 +10,7 @@ const recrutirerRoutes = require('./routes/recrutirer');
 const candidateRoutes = require('./routes/candidate');
 const vacancyRoutes = require('./routes/vacancy');
 const cityRoutes = require('./routes/city');
+const dashboardRoutes = require('./routes/dashboard');
 // const candidatelistRoutes = require('./routes/candidatelist');
 const apiResponse = require('./helpers/apiResponse');
 
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //To allow cross-origin requests
 app.use(cors());
 
+app.use(dashboardRoutes);
 app.use(authRoutes);
 app.use(recrutirerRoutes);
 app.use(candidateRoutes);

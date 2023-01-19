@@ -1,5 +1,4 @@
 const apiResponse = require('../../helpers/apiResponse');
-const { check, validationResult } = require('express-validator');
 const models = require('../models');
 
 const getPendingVacancy = async (req, res) => {

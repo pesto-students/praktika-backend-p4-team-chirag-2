@@ -5,6 +5,7 @@ const {
   getAllCount,
   getPendingInterviews,
 } = require('../app/controllers/dashboardController');
+const authenticateToken = require('../middelware/jwt');
 
 /**
  * @openpi
@@ -14,7 +15,7 @@ const {
  *      -dashboard:
  *      summary: get api for get All Count
  */
-router.get('/api/dashboard', getAllCount);
+router.get('/api/dashboard', authenticateToken, getAllCount);
 
 /**
  * @openpi
@@ -24,7 +25,11 @@ router.get('/api/dashboard', getAllCount);
  *      -dashboard:
  *      summary: get api get Pending Vacancy
  */
-router.get('/api/dashboard/getPendingVacancy', getPendingVacancy);
+router.get(
+  '/api/dashboard/getPendingVacancy',
+  authenticateToken,
+  getPendingVacancy
+);
 
 /**
  * @openpi
@@ -34,4 +39,10 @@ router.get('/api/dashboard/getPendingVacancy', getPendingVacancy);
  *      -dashboard:
  *      summary: get api for get Pending Interviews
  */
-router.get('/api/dashboard/getPendingInterviews', getPendingInterviews);
+router.get(
+  '/api/dashboard/getPendingInterviews',
+  authenticateToken,
+  getPendingInterviews
+);
+
+module.exports = router;
