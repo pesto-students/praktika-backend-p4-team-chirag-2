@@ -4,10 +4,12 @@ const jwt = require('jsonwebtoken');
 const models = require('../models');
 const getData = async (req, res) => {
   try {
+    var company_id = req.decoded.company_id;
+    console.log('company id:' + req.decoded.company_id);
     // Find all vacancies of the specific company
     let vacancies = models.vacancy.findAll(
       {
-        where: { company_id: req.body.company_id },
+        where: { company_id: company_id },
       },
       {
         attributes: [
@@ -153,7 +155,7 @@ const create =
         vacancyData,
       });
     } catch (error) {
-      return res.status(400).json({ errors: error });
+      return res.status(500).json({ errors: error });
     }
   };
 const update = async (req, res) => {
