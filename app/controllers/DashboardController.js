@@ -141,7 +141,7 @@ const getPendingInterviews = async (req, res) => {
         include: [
           {
             model: models.users,
-            attributes: ['name'],
+            attributes: ['first_name','last_name'],
             required: true,
           },
           {
@@ -152,18 +152,10 @@ const getPendingInterviews = async (req, res) => {
         ],
       })
       .then((job_applications) => {
-        console.log(job_applications);
+        res.json(job_applications);
       })
       .catch((error) => {
         console.log(error);
-      });
-
-    vacancies
-      .then((vacancy) => {
-        res.json(vacancy);
-      })
-      .catch((error) => {
-        res.status(500).send(error);
       });
   } catch (error) {
     console.log(error);
