@@ -6,7 +6,7 @@ const models = require('../models');
 const get = async (req, res) => {
   console.log('Get Request Recrutier');
   console.log(req.decoded);
-  userId = req.decoded.id;
+  userId = req.decoded.user_id;
   await models.company
     .findOne({
       where: {
