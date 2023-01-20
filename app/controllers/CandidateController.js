@@ -119,8 +119,9 @@ const update = async (req, res) => {
     } else {
       req.body.userId = req.decoded.id;
       const personalInformation = models.personal_information.findByPk(
-        req.params.id
+        req.body.id
       );
+      console.log(personalInformation);
       if (!personalInformation) {
         return res
           .status(404)

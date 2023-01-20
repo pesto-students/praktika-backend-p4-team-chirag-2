@@ -81,20 +81,21 @@ const getPendingVacancy = async (req, res) => {
 };
 
 const getAllCount = async (req, res) => {
-  numberofvacancy = 0;
-  pendinginterview = 0;
-  interviewtoday = 0;
-  models.vacancy
+  var numberofvacancy = 0;
+  var pendinginterview = 0;
+  var interviewtoday = 0;
+  await models.vacancy
     .sum('numberofvacancy')
     .then((sum) => {
       numberofvacancy = sum;
+      console.log('number of vacancy ' + numberofvacancy);
     })
     .catch((error) => {
       console.log(error);
     });
 
   const today = new Date();
-  models.job_application
+  await models.job_application
     .count({
       where: {
         interviewdate: today,
@@ -102,24 +103,33 @@ const getAllCount = async (req, res) => {
     })
     .then((count) => {
       interviewtoday = count;
+      console.log('number of interviewtoday ' + interviewtoday);
     })
     .catch((error) => {
       console.log(error);
     });
-  models.job_application
+  await models.job_application
     .count({
       where: {
         interviewdate: {
-          [Op.gte]: today,
+          $gte: today,
         },
       },
     })
     .then((count) => {
       pendinginterview = count;
+      console.log('number of pendinginterview ' + pendinginterview);
     })
     .catch((error) => {
       console.log(error);
     });
+  var modelData = {
+    numberofvacancyCount: numberofvacancy,
+    pendinginterviewCount: pendinginterview,
+    interviewtodayCount: interviewtoday,
+  };
+  console.log(modelData);
+  res.json(modelData);
 };
 
 const getPendingInterviews = async (req, res) => {
