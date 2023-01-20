@@ -6,13 +6,18 @@ const models = require('../models');
 const get = async (req, res) => {
   console.log('Get Request Recrutier');
   console.log(req.decoded);
-  userId = req.decoded.user_id;
+  userId = req.decoded.id;
   await models.company
-    .findOne({
-      where: {
-        user_id: userId,
+    .findOne(
+      {
+        order: [['id', 'DESC']],
       },
-    })
+      {
+        where: {
+          user_id: userId,
+        },
+      }
+    )
     .then((company) => {
       res.json(company);
     })
