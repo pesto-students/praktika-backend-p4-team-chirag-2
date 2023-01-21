@@ -6,9 +6,6 @@ const getPendingVacancy = async (req, res) => {
     // Find all vacancies of the specific company
     let vacancies = models.vacancy.findAll(
       {
-        where: { company_id: req.body.company_id },
-      },
-      {
         order: [['numberofvacancy', 'DESC']],
       },
       { limit: 10 },
