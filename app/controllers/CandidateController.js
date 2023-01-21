@@ -61,8 +61,35 @@ const create =
           errors.array()
         );
       } else {
-        const personal_information = models.personal_information.create(
-          req.body
+        const personal_information = models.personal_information.create({
+          user_id: req.decoded.id,
+          first_name:req.body.first_name,
+          last_name:req.body.last_name,
+          job_category_id:req.body.job_category_id,
+          total_expeiance:req.body.total_expeiance,
+          currancy_id:req.body.currancy_id,
+          current_ctc:req.body.current_ctc,
+          expected_ctc:req.body.expected_ctc,
+          resume_url:req.body.resume_url,
+          video_url:req.body.video_url,
+          website_link:req.body.website_link,
+          facebook_link:req.body.facebook_link,
+          linked_link:req.body.linked_link,
+          github_link:req.body.github_link,
+          twitter_link:req.body.twitter_link,
+          current_address_line_1:req.body.current_address_line_1,
+          current_address_line_2:req.body.current_address_line_2,
+          current_country_id:req.body.current_country_id,
+          current_state_id:req.body.current_state_id,
+          current_city_id:req.body.current_city_id,
+          current_zip_code:req.body.current_zip_code,
+          permanent_address_line_1:req.body.permanent_address_line_1,
+          permanent_address_line_2:req.body.permanent_address_line_2,
+          permanent_country_id:req.body.permanent_country_id,
+          permanent_state_id:req.body.permanent_state_id,
+          permanent_city_id:req.body.permanent_city_id,
+          permanent_zip_code:req.body.permanent_zip_code,
+        }
         );
         return apiResponse.successResponseWithData(
           res,
@@ -119,7 +146,7 @@ const update = async (req, res) => {
     } else {
       req.body.userId = req.decoded.id;
       const personalInformation = models.personal_information.findByPk(
-        req.body.id
+        req.body.userId
       );
       console.log(personalInformation);
       if (!personalInformation) {
@@ -128,7 +155,7 @@ const update = async (req, res) => {
           .json({ error: 'Personal Information not found' });
       }
       // Update the personal information
-      models.personal_information.update({
+      const personal_information = models.personal_information.update({
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         job_category_id: req.body.job_category_id,
@@ -155,7 +182,7 @@ const update = async (req, res) => {
         permanent_city_id: req.body.permanent_city_id,
         permanent_state_id: req.body.permanent_state_id,
         permanent_zip_code: req.body.permanent_zip_code,
-      });
+      },{ where: { user_id: req.body.userId } });
       return apiResponse.successResponseWithData(
         res,
         'Personal Information Updated.',
