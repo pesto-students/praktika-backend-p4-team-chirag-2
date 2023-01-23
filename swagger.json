@@ -1,12 +1,811 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "1.0.0",
-    "title": "Praktika",
-    "description": "API Documentation Of Praktika",
-    "license": {
-      "name": "",
-      "url": ""
+    "title": "Prakatika",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://praktika.onrender.com"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Authentication"
+    },
+    {
+      "name": "Recruiter"
+    },
+    {
+      "name": "Vacancys"
+    },
+    {
+      "name": "Candidate"
+    },
+    {
+      "name": "DropDownList"
+    },
+    {
+      "name": "Dashboard"
+    }
+  ],
+  "paths": {
+    "/api/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "email": "bill@monger.com",
+                  "password": "bill@monger.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "undefined": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": null
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/register": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Registration",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "email": "antonymathew026@potter.com",
+                  "password": "#3Sajuismypop",
+                  "mobile_no": "919823232456",
+                  "role_id": "1"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "undefined": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": null
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/recrutirer": {
+      "get": {
+        "tags": [
+          "Recruiter"
+        ],
+        "summary": "Get Profile",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJhbnRvbnltYXRoZXcwMjJAZ21haWwuY29tIiwicm9sZV9pZCI6MSwiY29tcGFueV9pZCI6MCwiaWF0IjoxNjczNzcwMTk2LCJleHAiOjE2NzU5MzAxOTZ9.ycxNFunUcEBTElKHZCV2fAalrC8-UHB2sEX6A9kibsI"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Recruiter"
+        ],
+        "summary": "Create Profile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "companyname": "example company 4",
+                  "companysize": "500-1000",
+                  "industry": "technology",
+                  "overview": "example company is a leading provider of innovative technology solutions.",
+                  "values": "innovation, collaboration, and excellence",
+                  "benefits": "competitive salary, stock options, health benefits, flexible working hours",
+                  "website": "https://www.example.com",
+                  "linkedin": "https://linkedin.com/example",
+                  "facebook": "https://facebook.com/example",
+                  "glassdoor": "https://glassdoor.com/example",
+                  "crunchbase": "https://crunchbase.com/example"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsImVtYWlsIjoiamFtZXNAcG90dGVyLmNvbSIsInJvbGVfaWQiOjIsImNvbXBhbnlfaWQiOjAsImlhdCI6MTY3Mzg5MjYyNywiZXhwIjoxNjc0MTA4NjI3fQ.hJdYnzRe52Sab431NFIfN1GRi2dwHqgBL4FrIR76Kdk"
+          }
+        ],
+        "responses": {
+          "undefined": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": null
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Recruiter"
+        ],
+        "summary": "Update Profile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "id": 1,
+                  "companyname": "Acme Corp",
+                  "companysize": "1000-5000",
+                  "industry": "Manufacturing",
+                  "overview": "Acme Corp is a leading manufacturer of industrial equipment and machinery.",
+                  "values": "Safety, Quality, and Efficiency",
+                  "benefits": "401k, PTO, Health Insurance, Professional Development Opportunities",
+                  "website": "https://acmecorp.com",
+                  "linkedin": "https://linkedin.com/acmecorp",
+                  "facebook": "https://facebook.com/acmecorp",
+                  "glassdoor": "https://glassdoor.com/acmecorp",
+                  "crunchbase": "https://crunchbase.com/acmecorp"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "undefined": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": null
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/vacancy": {
+      "get": {
+        "tags": [
+          "Vacancys"
+        ],
+        "summary": "Get",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Vacancys"
+        ],
+        "summary": "Create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "jobtitle": "Software Engineer Jabong",
+                  "jobdescription": "We are looking for a highly skilled Software Engineer to join our team. The ideal candidate will have experience in developing",
+                  "numberofvacancy": 5,
+                  "jobcategory": 1,
+                  "jobtype": 2,
+                  "country": 1,
+                  "state": 1,
+                  "city": 1,
+                  "experiencelevel": 3,
+                  "minimumexperience": 2,
+                  "maximumexperience": 5,
+                  "currency": 1,
+                  "expectedsalaryfrom": 50000,
+                  "expectedsalaryto": 80000
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJhbnRvbnltYXRoZXcwMjJAZ21haWwuY29tIiwicm9sZV9pZCI6MSwiY29tcGFueV9pZCI6MCwiaWF0IjoxNjczNzY1NjY4LCJleHAiOjE2NzU5MjU2Njh9.UdeB5sEKbPa8tpPxpGhJE04hSN7E_tZ98LXZf9lNvGM"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Vacancys"
+        ],
+        "summary": "Update",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "id": 3,
+                  "jobtitle": "front-end developer",
+                  "jobdescription": "We are looking for a Front-end Developer to join our team. The ideal candidate will have experience in developing and implementing user-facing features using HTML, CSS, and JavaScript. Responsibilities include creating and maintaining the visual elements of our web applications, optimizing user experience, and collaborating with back-end developers.",
+                  "numberofvacancy": 3,
+                  "jobcategory": 2,
+                  "jobtype": 1,
+                  "country": 102,
+                  "state": 201,
+                  "city": 302,
+                  "experiencelevel": 2,
+                  "minimumexperience": 1,
+                  "maximumexperience": 3,
+                  "currency": 2,
+                  "expectedsalaryfrom": 40000,
+                  "expectedsalaryto": 60000,
+                  "skills": [
+                    1,
+                    2,
+                    5
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Vacancys"
+        ],
+        "summary": "Delete",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/vacancy/getCandidateListing": {
+      "get": {
+        "tags": [
+          "Vacancys"
+        ],
+        "summary": "Get Candidate Listing",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "undefined": {
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": [
+                  {
+                    "id": 1,
+                    "first_name": "John",
+                    "last_name": "Doe",
+                    "job_category_id": 1,
+                    "total_expeiance": "5.5",
+                    "currancy_id": 1,
+                    "current_ctc": "75000.00",
+                    "expected_ctc": "100000.00",
+                    "resume_url": "https://www.example.com/resumes/johndoe.pdf",
+                    "video_url": "https://www.example.com/videos/johndoe.mp4",
+                    "website_link": "https://www.example.com",
+                    "linked_link": "https://www.linkedin.com/in/johndoe",
+                    "github_link": "https://github.com/johndoe",
+                    "facebook_link": "https://www.facebook.com/johndoe",
+                    "twitter_link": "https://twitter.com/johndoe",
+                    "current_address_line_1": "123 Main St",
+                    "current_address_line_2": "Apt 456",
+                    "current_country_id": 1,
+                    "current_city_id": 1,
+                    "current_state_id": 1,
+                    "current_zip_code": "12345",
+                    "permanent_address_line_1": "456 Park Ave",
+                    "permanent_address_line_2": "",
+                    "permanent_country_id": 1,
+                    "permanent_city_id": 2,
+                    "permanent_state_id": 2,
+                    "permanent_zip_code": "67890",
+                    "skills": [
+                      1,
+                      2,
+                      3,
+                      4
+                    ]
+                  },
+                  {
+                    "id": 2,
+                    "first_name": "John",
+                    "last_name": "Doe",
+                    "job_category_id": 1,
+                    "total_expeiance": "5.5",
+                    "currancy_id": 1,
+                    "current_ctc": "75000.00",
+                    "expected_ctc": "100000.00",
+                    "resume_url": "https://www.example.com/resumes/johndoe.pdf",
+                    "video_url": "https://www.example.com/videos/johndoe.mp4",
+                    "website_link": "https://www.example.com",
+                    "linked_link": "https://www.linkedin.com/in/johndoe",
+                    "github_link": "https://github.com/johndoe",
+                    "facebook_link": "https://www.facebook.com/johndoe",
+                    "twitter_link": "https://twitter.com/johndoe",
+                    "current_address_line_1": "123 Main St",
+                    "current_address_line_2": "Apt 456",
+                    "current_country_id": 1,
+                    "current_city_id": 1,
+                    "current_state_id": 1,
+                    "current_zip_code": "12345",
+                    "permanent_address_line_1": "456 Park Ave",
+                    "permanent_address_line_2": "",
+                    "permanent_country_id": 1,
+                    "permanent_city_id": 2,
+                    "permanent_state_id": 2,
+                    "permanent_zip_code": "67890",
+                    "skills": [
+                      1,
+                      2,
+                      3,
+                      4
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/candidate": {
+      "get": {
+        "tags": [
+          "Candidate"
+        ],
+        "summary": "Get",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJhbnRvbnltYXRoZXcwMjJAZ21haWwuY29tIiwicm9sZV9pZCI6MSwiaWF0IjoxNjczNzY0NDI4LCJleHAiOjE2NzU5MjQ0Mjh9.gmuVC63ksoIrXC3nteUHQOnReFxXN8vJuXnZ_f1u7Eo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Candidate"
+        ],
+        "summary": "Create Profile",
+        "requestBody": {
+          "content": {}
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Candidate"
+        ],
+        "summary": "Update Profile",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/candidate/getjoboffers": {
+      "get": {
+        "tags": [
+          "Candidate"
+        ],
+        "summary": "Get Job Requests",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/uploadresume": {
+      "post": {
+        "tags": [
+          "Candidate"
+        ],
+        "summary": "Upload Video",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/vacancy/getskills": {
+      "get": {
+        "tags": [
+          "DropDownList"
+        ],
+        "summary": "Skills",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/vacancy/getjobcategory": {
+      "get": {
+        "tags": [
+          "DropDownList"
+        ],
+        "summary": "Job Category",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/vacancy/getCountrys": {
+      "get": {
+        "tags": [
+          "DropDownList"
+        ],
+        "summary": "Get Country",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/vacancy/getStates": {
+      "post": {
+        "tags": [
+          "DropDownList"
+        ],
+        "summary": "Get State",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "country_id": 1
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/vacancy/getCitys": {
+      "post": {
+        "tags": [
+          "DropDownList"
+        ],
+        "summary": "Get Citys",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "state_id": 1
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/dashboard": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Get Count",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/dashboard/getPendingVacancy": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Get Pending Vacancy",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/dashboard/getPendingInterviews": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Get Pending Interviews",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
     }
   }
 }
