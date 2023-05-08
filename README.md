@@ -1,90 +1,90 @@
-## Software Requirements
+![Praktika](https://praktika-frontend.onrender.com/)
 
-- Node.js **8+**
-- Postgresql
+- Praktika is a Job Recruitment Platform that can be used by any HR to find suitable candidates while also giving potential candidates the option to view jobs listed by various recruiters. 
+- Praktika provides an end-to-end solution.
 
-## Project structure
+<br/>
+  
 
-```sh
-.
-├── app.js
-├── package.json
-├── bin
-│   └── www
-├── controllers
-│   ├── AuthController.js
-│   └── BookController.js
-├── models
-│   ├── BookModel.js
-│   └── UserModel.js
-├── routes
-│   ├── api.js
-│   ├── auth.js
-│   └── book.js
-├── middlewares
-│   ├── jwt.js
-├── helpers
-│   ├── apiResponse.js
-│   ├── constants.js
-│   ├── mailer.js
-│   └── utility.js
-└── public
-    ├── index.html
-    └── stylesheets
-        └── style.css
-```
+# Table of Contents
 
-## How to run
+  
 
-### Running API server locally
+1. [Demo](#demo)
 
-```bash
-npm run dev
-```
+2. [Installation](#installation)
 
-You will know server is running by checking the output of the command `npm run dev`
+3. [Technology Stack](#technology-stack)
 
-```bash
-Connected to mongodb:YOUR_DB_CONNECTION_STRING
-App is running ...
+4. [Authors](#authors)
 
-Press CTRL + C to stop the process.
-```
+5. [License](#license)
 
-**Note:** `YOUR_DB_CONNECTION_STRING` will be your MongoDB connection string.
+  
 
-### Creating new models
+<br/>
 
-If you need to add more models to the project just create a new file in `/models/` and use them in the controllers.
+  
 
-### Creating new routes
+# Demo
 
-If you need to add more routes to the project just create a new file in `/routes/` and add it in `/routes/api.js` it will be loaded dynamically.
+  
+[Live FE Demo](https://praktika-frontend.onrender.com/)
 
-### Creating new controllers
+[Live BE Demo](https://praktika-frontend.onrender.com)
 
-If you need to add more controllers to the project just create a new file in `/controllers/` and use them in the routes.
+<br/>
 
-## Tests
+Test Credentials for User:
 
-### Running Test Cases
+- Email: project@pesto.com
 
-```bash
-npm test
-```
+- Password: 11111111
 
-You can set custom command for test at `package.json` file inside `scripts` property. You can also change timeout for each assertion with `--timeout` parameter of mocha command.
+ 
+<br/>
 
-### Creating new tests
+  
 
-If you need to add more test cases to the project just create a new file in `/test/` and run the command.
+# Installation
 
-## ESLint
+  
 
-### Running Eslint
+- Fork or directly clone this repository to your local machine
 
-```bash
-npm run lint
-```
+- Use the `npm install` command to install dependencies
 
-You can set custom rules for eslint in `.eslintrc.json` file, Added at project root.
+- Once the dependencies are finished installing, use the `npm run dev` command inside the root directory to open the app in your local browser of choice
+
+  
+
+<br/>
+
+  
+
+# Technology Stack
+
+- [NodeJS](https://nodejs.org/en/about/)
+
+- [ExpressJS](https://expressjs.com/)
+  
+
+<br/>
+
+  
+
+# Authors
+
+- [Parth joshi](https://github.com/ParthJedi)
+- [Antony Mathews](https://github.com/ParthJedi)
+- [Mangesh G](https://github.com/ParthJedi)
+
+<br/>
+
+  
+
+# License
+
+  
+
+[MIT](https://opensource.org/licenses/MIT)
