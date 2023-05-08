@@ -1,4 +1,4 @@
-![Praktika](https://praktika-frontend.onrender.com/)
+# Praktika
 
 - Praktika is a Job Recruitment Platform that can be used by any HR to find suitable candidates while also giving potential candidates the option to view jobs listed by various recruiters. 
 - Praktika provides an end-to-end solution.
